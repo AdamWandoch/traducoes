@@ -8,7 +8,7 @@ if (-not (Test-Path $importFile)) {
     Write-Host "Erro: Arquivo 'import.csv' nao encontrado."
     return
 }
-$importData = Import-Csv -Path $importFile
+$importData = Import-Csv -Path $importFile -Delimiter ";"
 
 # Inicializar o contador
 $global:counter = 0
@@ -39,11 +39,19 @@ foreach ($importEntry in $importData) {
         
         # Atualizar apenas se o novo valor for diferente
         if ($novoValor -ne $oldValue) {
+            # Define as strings a serem removidas
+            $stringsToRemove = "en-us", "es-es", "es-py", "es-mx"
+
+            # Remover ocorrências das strings especificadas de $novoValor
+            foreach ($str in $stringsToRemove) {
+                $novoValor = $novoValor -replace [regex]::Escape($str), ""
+            }
+            
             # Atualizar o valor com o novo
             $key.Value = $novoValor
             
             # Salvar o conteudo atualizado de volta para o arquivo JSON
-            $jsonContent | ConvertTo-Json | Set-Content $fullPath -Force
+            $jsonContent | ConvertTo-Json -Depth 10 | Set-Content $fullPath -Encoding UTF8 -Force
 
             # Incrementar o contador de atualizacoes
             $global:counter++
