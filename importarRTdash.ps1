@@ -29,7 +29,7 @@ foreach ($importEntry in $importData) {
         continue
     }
     
-    $jsonContent = Get-Content $fullPath | ConvertFrom-Json
+    $jsonContent = Get-Content $fullPath -Encoding UTF8 | ConvertFrom-Json
 
     # Encontrar a chave correspondente na secao 'translation'
     $key = $jsonContent.translation.PSObject.Properties | Where-Object { $_.Name -eq $recursoName }
