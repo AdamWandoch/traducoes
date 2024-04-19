@@ -1,4 +1,3 @@
-# new test
 # Ajuste o $rootFolder abaixo para apontar para a pasta do repositorio do projeto na sua maquina
 $rootFolder = "C:\Users\adam.wandoch\source\repos\dashboard-web"
 
